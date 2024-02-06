@@ -2,18 +2,26 @@ from fastapi import FastAPI
 from fastapi.responses import FileResponse
 import os 
 from pydantic import BaseModel
+import ccxt
+authentification = {
+    'apiKey': os.environ.get('api'),
+    'secret': os.environ.get('secret'),
+    'password':os.environ.get('password'),
+    'enableRateLimit': True,
+}
 
+exchange = ccxt.kucoinfutures(authentification)
 app = FastAPI()
 
 
 class Item(BaseModel):
     item_id: int
-
-
 @app.get("/")
 async def root():
     return {"message": os.environ.get('api')}
-
+@app.get('/getprice')
+async def getprice(symbol:str =""):
+    return {'msg',symbol}
 
 @app.get('/favicon.ico', include_in_schema=False)
 async def favicon():
