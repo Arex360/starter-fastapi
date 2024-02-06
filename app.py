@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.responses import FileResponse
-
+import os 
 from pydantic import BaseModel
 
 app = FastAPI()
@@ -12,7 +12,7 @@ class Item(BaseModel):
 
 @app.get("/")
 async def root():
-    return {"message": "Hello World"}
+    return {"message": os.environ.get('api')}
 
 
 @app.get('/favicon.ico', include_in_schema=False)
